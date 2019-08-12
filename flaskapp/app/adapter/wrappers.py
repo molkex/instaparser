@@ -57,7 +57,7 @@ def get_stats(page_n, query):
     search_result = []
     # log.debug("bruh")
     for each in stats:
-        if any(query in _.username for _ in list(each.compared_users)):
+        if any(query in usr.username for usr in each.compared_users):
             search_result.append({
                 "id": str(each.id),
                 "compared_users": [
