@@ -24,20 +24,23 @@ def get_result(id, page_n, query):
         stats = Statistics.objects.get(id=id)
     except ValidationError:
         return {"json": None, "status": 400}
-    common_followers_count = len(stats.common_followers)
     output_json = {"compared_users": list(stats.compared_users)}
 
     page_n = check_page(page_n)
 
-    search_result = [x for x in stats.common_followers if query in x]
-    search_result_count = len(search_result)
-    output_json["count"] = search_result_count
-
-    if 0 < page_n * per_page < search_result_count + per_page:
-        search_result = search_result[(page_n - 1) * per_page:page_n * per_page]
-        output_json["common_followers"] = search_result
+    if stats.common_followers:
+        common_followers_count = len(stats.common_followers)
+        search_result = [x for x in stats.common_followers if query in x]
+        search_result_count = len(search_result)
+        output_json["count"] = search_result_count
+        if 0 < page_n * per_page < search_result_count + per_page:
+            search_result = search_result[(page_n - 1) * per_page:page_n * per_page]
+            output_json["common_followers"] = search_result
+        else:
+            output_json["common_followers"] = []
     else:
-        output_json["common_followers"] = []
+        output_json["count"] = None
+
     return {"json": output_json, "status": 200}
 
 

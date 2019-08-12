@@ -18,7 +18,7 @@ class ComparedUserField(EmbeddedDocument):
 class Statistics(db.Document):
     creation_time = DateTimeField()
     compared_users = EmbeddedDocumentListField(ComparedUserField)
-    common_followers = ListField()
+    common_followers = ListField(default=None)
 
     def save(self, *args, **kwargs):
         self.creation_time = datetime.datetime.now()
