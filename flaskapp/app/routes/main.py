@@ -5,7 +5,7 @@ from flask import request, jsonify
 from flask_login import login_required
 
 from app.adapter import get_result, get_stats, get_clients, get_settings, change_settings, change_instagram_client, \
-    delete_instagram_client
+    delete_instagram_client, search_is_going
 from app.insta_client import check_info, parse
 from .. import socketio
 
@@ -73,6 +73,11 @@ def compare_route():
     users = [request.args.get("0"), request.args.get("1")]
     if None in users:
         return jsonify({"error": "EmptyUser"}), 400
+
+    # searching = search_is_going(users)
+    # if searching:
+    #     return jsonify(searching["json"]), searching["status"]
+
     check_result = check_info(users)
     if not "error" in check_result["json"]:
         if not any(x["error"] for x in check_result["json"]["users"]):
