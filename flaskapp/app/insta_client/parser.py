@@ -193,6 +193,7 @@ def parse(usernames, socketio, room_id):
 
     def start():
         for user in usernames:
+            sleep(2)
             threads.append(socketio.start_background_task(parse_user, user, room_id))
 
     def wait_and_emit():
