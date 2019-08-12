@@ -52,10 +52,6 @@ class InstaClients(db.Document):
             while not valid_flag:
                 oldest = self.objects.order_by("last_used").first()
                 oldest.update(last_used=datetime.datetime.now())
-                # self.__last_used_id %= len(self.objects)
-                # oldest = self.objects[self.__last_used_id]
-                # self.__last_used_id += 1
-                # self.__last_used_id %= len(self.objects)
                 log.debug(f"{oldest.username} is valid: {not bool(oldest.error)}")
                 if str(oldest.error) == "":
                     valid_flag = True

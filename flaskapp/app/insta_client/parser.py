@@ -41,7 +41,6 @@ def init_client(new_data=None):
             client_params = InstaClients.get_oldest_client
             if not client_params:
                 return None
-        # client_params.save()
         log.debug("Got client, checking settings")
         device_id = None
 
@@ -62,7 +61,6 @@ def init_client(new_data=None):
         except ClientError as e:
             if isinstance(e, ClientThrottledError):
                 sleep(Constants.api_throttle_delay)
-                # client_params = InstaClients.get_oldest_client
             elif isinstance(e, ClientLoginError):
                 if str(e) == Constants.bad_password or str(e) == Constants.invalid_user:
                     if str(e) == Constants.invalid_user:
@@ -127,7 +125,6 @@ def check_info(usernames):
         except ClientError as e:
             user_responses.append(form_response(user, "UserNotFound"))
         log.info(f"Checked info for {user} using {client.username}")
-    # socketio.emit("check", {"id": str(saved_stat.id), "users": user_responses}, room=request.sid)
     if any(x["error"] for x in user_responses):
         return {"json": {"id": "", "users": user_responses}, "status": 200}
 
@@ -151,7 +148,6 @@ def parse(usernames, socketio, room_id):
             socketio.emit("error", {"error", "InternalError"}, room=room_id)
             return
         rank_token = client.generate_uuid()
-        # print(f"Using {client.username}")
         user_id = None
         while not user_id:
             try:
@@ -177,7 +173,6 @@ def parse(usernames, socketio, room_id):
                 next_max_id = results.get('next_max_id')
                 log.info(success_string.format(username, client.username))
             except (ClientError, ConnectionResetError) as e:
-                # log.debug(type(e))
                 log.info(error_string.format(username, client.username, e))
                 sleep(20)
             except ClientCookieExpiredError as e:
@@ -210,8 +205,6 @@ def parse(usernames, socketio, room_id):
         ComparedUsers.increment(usernames[1])
         socketio.emit("end", result_id, room=room_id)
 
-    # join_room(room=room_id)
     start()
     wait_and_emit()
-    # leave_room(room=room_id)
     return

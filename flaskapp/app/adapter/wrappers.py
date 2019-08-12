@@ -19,14 +19,6 @@ def check_page(number):
     return number
 
 
-# def check_client(id):
-#     result = login(id)
-#     if isinstance(result, dict):
-#         return {"json": result, "status": 400}
-#     else:
-#         return {"json": {"error": ""}, "error": 200}
-
-
 def get_result(id, page_n, query):
     try:
         stats = Statistics.objects.get(id=id)
@@ -55,7 +47,6 @@ def get_stats(page_n, query):
 
     stats = Statistics.objects.order_by('-creation_time')
     search_result = []
-    # log.debug("bruh")
     for each in stats:
         if any(query in usr.username for usr in each.compared_users):
             search_result.append({
