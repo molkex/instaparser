@@ -1,13 +1,13 @@
 from gevent import monkey
+
 monkey.patch_all()
 from app import create_app, socketio
-import logging, sys
+import logging
 from logging import handlers
 
 conf = 'dev'
 
 app = create_app(conf)
-
 
 if __name__ == "__main__":
     handler = handlers.RotatingFileHandler("main.log", maxBytes=1000000, backupCount=1)

@@ -57,7 +57,8 @@ def get_stats(page_n, query):
                 "compared_users": [
                     {
                         "username": x,
-                        "count": int(ComparedUsers.objects(pk=x).first().uses) if len(ComparedUsers.objects(pk=x)) else 0
+                        "count": int(ComparedUsers.objects(pk=x).first().uses) if len(
+                            ComparedUsers.objects(pk=x)) else 0
                     }
                     for x in [str(y.username) for y in each.compared_users]],
                 "count": len(each.common_followers),

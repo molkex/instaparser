@@ -1,6 +1,7 @@
-from flask_login import current_user, login_user
-from app.adapter import User
 from flask import Blueprint, request, jsonify
+from flask_login import current_user, login_user
+
+from app.adapter import User
 
 auth_bp = Blueprint('auth', __name__)
 

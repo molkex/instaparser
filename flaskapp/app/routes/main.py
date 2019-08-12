@@ -1,11 +1,13 @@
+import logging
+
 from flask import Blueprint
 from flask import request, jsonify
+from flask_login import login_required
+
 from app.adapter import get_result, get_stats, get_clients, get_settings, change_settings, change_instagram_client, \
     delete_instagram_client
 from app.insta_client import check_info, parse
 from .. import socketio
-from flask_login import login_required
-import logging
 
 log = logging.getLogger("flaskapp.main_router")
 main_bp = Blueprint('main', __name__)

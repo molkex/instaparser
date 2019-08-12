@@ -3,7 +3,8 @@ import logging
 
 from flask_login import UserMixin, LoginManager
 from flask_mongoengine import MongoEngine
-from mongoengine import queryset_manager, IntField, StringField, DateTimeField, ListField, BooleanField, EmbeddedDocumentListField, EmbeddedDocument
+from mongoengine import queryset_manager, IntField, StringField, DateTimeField, ListField, EmbeddedDocumentListField, \
+    EmbeddedDocument
 
 db = MongoEngine()
 login_manager = LoginManager()
@@ -85,7 +86,7 @@ class ComparedUsers(db.Document):
     def increment(self, queryset, user):
         query = self.objects(pk=user).first()
         if query:
-            query.update(uses=(query.uses+1))
+            query.update(uses=(query.uses + 1))
         else:
             self(username=user, uses=1).save()
         return

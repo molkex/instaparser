@@ -2,7 +2,6 @@ import json
 import logging
 from http.client import IncompleteRead
 
-from flask_socketio import join_room, leave_room
 from gevent import sleep
 from instagram_private_api import (ClientThrottledError, ClientCookieExpiredError, ClientLoginError,
                                    Client, ClientError, ClientCheckpointRequiredError, ClientSentryBlockError)
@@ -83,7 +82,8 @@ def init_client(new_data=None):
                 client_params.update(settings="")
             elif isinstance(e, ClientCheckpointRequiredError):
                 if new_data:
-                    return {"json": {"error": Constants.error_checkpoint_required, "checkpoint": e.challenge_url}, "status": 200}
+                    return {"json": {"error": Constants.error_checkpoint_required, "checkpoint": e.challenge_url},
+                            "status": 200}
                 client_params.update(error=Constants.error_checkpoint_required, checkpoint=str(e.challenge_url))
                 client_params = InstaClients.get_oldest_client
                 if not client_params:
@@ -103,6 +103,7 @@ def init_client(new_data=None):
 
 def check_info(usernames):
     MAX_FOLLOWER_COUNT = int(Settings.objects.first().max_followers)
+
     def form_response(name, error="", follower_count=0):
         return {"username": name, "error": error, "total_followers": follower_count, "limit": MAX_FOLLOWER_COUNT}
 
