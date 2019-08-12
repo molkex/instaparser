@@ -17,8 +17,6 @@ services:
       - instaparser_mongodb:/data/db
     expose:
       - "27017"
-    ports:
-      - "1000:27017"
     environment:
       MONGO_INITDB_DATABASE: instaparser
 
