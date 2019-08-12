@@ -1,0 +1,37 @@
+version: '3'
+services:
+  flaskapp:
+    build:
+      context: ./flaskapp
+    volumes:
+      - ./flaskapp:/app
+      - /app/venv
+    command: python /app/instaparser.py
+    expose:
+      - "5000"
+
+  mongo:
+    build:
+      context: ./mongo
+    volumes:
+      - instaparser_mongodb:/data/db
+    expose:
+      - "27017"
+    ports:
+      - "1000:27017"
+    environment:
+      MONGO_INITDB_DATABASE: instaparser
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - ./nginx/static:/etc/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/flaskapp.conf
+    depends_on:
+      - flaskapp
+    ports:
+      - "80:80"
+
+volumes:
+  instaparser_mongodb:
