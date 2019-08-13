@@ -19,21 +19,6 @@ def check_page(number):
     return number
 
 
-def search_is_going(usernames):
-    MAX_FOLLOWER_COUNT = int(Settings.objects.first().max_followers)
-
-    def form_response(name, error="", follower_count=0):
-        return {"username": name, "error": error, "total_followers": follower_count, "limit": MAX_FOLLOWER_COUNT}
-
-    for stat in Statistics.objects(common_followers=None):
-        if len(set(usernames).intersection([x.username for x in stat.compared_users])):
-            return {"json": {"id": str(stat.id),
-                             "users": [form_response(name=x.username, follower_count=x.total_followers) for x in
-                                       stat.compared_users]}, "status": 200}
-        return False
-    return False
-
-
 def get_result(id, page_n, query):
     try:
         stats = Statistics.objects.get(id=id)
