@@ -9,3 +9,4 @@ def connect():
     room_id = request.args.get("room_id")
     if room_id:
         join_room(room_id)
+    return
