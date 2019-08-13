@@ -26,7 +26,7 @@ def create_app(conf="dev"):
 
     from app.adapter import db
     db.init_app(app)
-    cors = CORS(app)
+    # cors = CORS(app)
     socketio.init_app(app, async_mode="gevent", engineio_logger=False,
                       cors_allowed_origins='*')
 
