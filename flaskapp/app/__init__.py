@@ -28,7 +28,7 @@ def create_app(conf="dev"):
     db.init_app(app)
     # cors = CORS(app)
     socketio.init_app(app, async_mode="gevent", engineio_logger=False,
-                      cors_allowed_origins='*')
+                      cors_allowed_origins=["http://abstractlook.com/"])
 
     if not Settings.objects.first():
         Settings(max_followers=500000).save()
